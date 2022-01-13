@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.tsci.notes.exception.NoteNotFoundException;
+import com.tsci.notes.exception.UserBadRequestException;
 import com.tsci.notes.exception.UserNotFoundException;
 import com.tsci.notes.model.Note;
 import com.tsci.notes.model.User;
@@ -14,7 +15,7 @@ public interface NotesService {
 	List<User> findUsers() throws UserNotFoundException;
 	List<User> findByTitle(String title) throws UserNotFoundException;
 	List<User> findByName(String name) throws UserNotFoundException;
-	void createUser(User user);
+	void createUser(User user) throws UserBadRequestException;
 	User findUserByMail(String mail);
 
 	// Note Repository methods
