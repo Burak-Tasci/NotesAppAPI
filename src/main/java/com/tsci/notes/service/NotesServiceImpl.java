@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.tsci.notes.dao.NoteRepository;
 import com.tsci.notes.dao.UserRepository;
 import com.tsci.notes.exception.NoteNotFoundException;
+import com.tsci.notes.exception.UserBadRequestException;
 import com.tsci.notes.exception.UserNotFoundException;
 import com.tsci.notes.model.Note;
 import com.tsci.notes.model.User;
@@ -76,6 +77,19 @@ public class NotesServiceImpl implements NotesService {
 		List<Note> notes = noteRepository.findNotesAfterDate(date);
 		if(notes == null) throw new NoteNotFoundException(String.format("There are no note found after date %s", date));
 		else return notes;
+	}
+
+	@Override
+	public void createUser(User user) throws UserBadRequestException {
+		if (user!= null) userRepository.createUser(user);
+		else throw new UserBadRequestException("Invalid request body");
+	}
+
+	@Override
+	public User findUserByMail(String mail) throws UserNotFoundException {
+		User user = userRepository.findUserByMail(mail);
+		if(user == null) throw new UserNotFoundException(String.format("There are no user found with mail %s", mail));
+		else return user;
 	}
 
 }
