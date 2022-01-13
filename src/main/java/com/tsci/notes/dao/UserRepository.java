@@ -9,5 +9,6 @@ public interface UserRepository {
 	List<User> findUsers();
 	List<User> findByTitle(String title);
 	List<User> findByName(String name);
+	void createUser();
 	
 }
