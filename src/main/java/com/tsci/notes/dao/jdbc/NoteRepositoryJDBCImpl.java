@@ -1,9 +1,12 @@
 package com.tsci.notes.dao.jdbc;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -30,6 +33,31 @@ public class NoteRepositoryJDBCImpl implements NoteRepository {
 		}
 		
 	};
+
+	@Override
+	public List<Note> findNotes() {
+		// Query to get all notes
+		String sql = "SELECT * FROM [Notes]";
+		// returning all notes by jdbcTemplate query
+		return jdbcTemplate.query(sql, rowMapperNote);
+		
+	}
+
+	@Override
+	public List<Note> findNotesByUserID(int id) {
+		// Query to get wanted id'd Note 
+		String sql = "SELECT * FROM [Notes] "
+				+ "WHERE n.ID in (SELECT un.NoteID FROM [User-Note] un WHERE un.UserID = ?)";
+		List<Note> notes = jdbcTemplate.query(sql, rowMapperNote, id);
+		return notes;
+	}
+
+	@Override
+	public List<Note> findNotesAfterDate(Date date) {
+		String sql = "SELECT * FROM [Notes] n WHERE n.Deadline > ?";
+		List<Note> notes = jdbcTemplate.query(sql, rowMapperNote, date);
+		return notes;
+	}
 	
 	
 }
