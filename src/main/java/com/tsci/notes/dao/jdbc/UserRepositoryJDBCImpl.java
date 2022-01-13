@@ -36,9 +36,7 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 		}
 		
 		
-		
 	};
-	
 	
 	
 	@Override
@@ -61,8 +59,11 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 
 	@Override
 	public List<User> findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// Query to get all users which has the wanted name
+		String sql = "SELECT * FROM [User] AS u WHERE u.Name = ?";
+		// returning them
+		return jdbcTemplate.query(sql, rowMapperUser, name);
 	}
 
 }
