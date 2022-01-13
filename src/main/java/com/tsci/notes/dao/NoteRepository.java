@@ -8,7 +8,7 @@ import com.tsci.notes.model.Note;
 public interface NoteRepository {
 	
 	List<Note> findNotes();
-	List<Note> findNotesByID(int id);
+	List<Note> findNotesByUserID(int id);
 	List<Note> findNotesAfterDate(Date date);
 
 }
