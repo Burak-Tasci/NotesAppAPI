@@ -31,6 +31,7 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 			user.setMail(rs.getString("Mail"));
 			user.setPassword(rs.getString("Password"));
 			user.setTitle(rs.getString("Title"));
+			user.setAvatar(rs.getString("Avatar"));
 			return user;
 		}
 		
