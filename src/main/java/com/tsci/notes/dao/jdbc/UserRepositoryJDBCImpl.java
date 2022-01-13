@@ -19,7 +19,6 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	@Autowired
 	private RowMapper<User> rowMapperUser = new RowMapper<User>() {
 
 		@Override
