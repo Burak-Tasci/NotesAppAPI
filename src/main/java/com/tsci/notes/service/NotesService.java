@@ -16,7 +16,7 @@ public interface NotesService {
 	List<User> findByTitle(String title) throws UserNotFoundException;
 	List<User> findByName(String name) throws UserNotFoundException;
 	void createUser(User user) throws UserBadRequestException;
-	User findUserByMail(String mail);
+	User findUserByMail(String mail) throws UserNotFoundException;
 
 	// Note Repository methods
 	List<Note> findNotes() throws NoteNotFoundException;
