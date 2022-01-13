@@ -35,7 +35,6 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 			return user;
 		}
 		
-		
 	};
 	
 	
