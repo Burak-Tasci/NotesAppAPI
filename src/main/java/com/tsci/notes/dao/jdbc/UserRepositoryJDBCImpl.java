@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -63,6 +64,24 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 		String sql = "SELECT * FROM [User] AS u WHERE u.Name = ?";
 		// returning them
 		return jdbcTemplate.query(sql, rowMapperUser, name);
+	}
+
+	@Override
+	public void createUser(User user) {
+		
+		// Query to insert new user
+		String sql = "INSERT INTO [User](Name,Surname,Mail,Password,Title,Avatar)" +
+		"VALUES (?,?,?,?,?,?,?)";
+		jdbcTemplate.update(sql,user.getName(), user.getSurname(), user.getMail(),user.getPassword(),user.getTitle(),user.getAvatar());
+		
+	}
+
+	@Override
+	public User findUserByMail(String mail) {
+		// Query to get user which has mail
+		String sql = "SELECT * FROM [User] AS u WHERE u.Mail = ?";
+		// returning them
+		return DataAccessUtils.singleResult(jdbcTemplate.query(sql, rowMapperUser, mail));
 	}
 
 
