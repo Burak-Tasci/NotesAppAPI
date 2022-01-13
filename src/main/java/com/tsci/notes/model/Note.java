@@ -14,6 +14,8 @@ public class Note {
 		this.note = Note;
 		this.deadline = Deadline;
 	}
+	public Note() {
+	}
 	public int getId() {
 		return id;
 	}
