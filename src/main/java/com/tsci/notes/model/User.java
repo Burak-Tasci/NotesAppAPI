@@ -8,6 +8,8 @@ public class User {
 	private String mail;
 	private String password;
 	private String title;
+	private String avatar;
+	
 	public int getId() {
 		return id;
 	}
@@ -43,6 +45,12 @@ public class User {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	@Override
 	public String toString() {
