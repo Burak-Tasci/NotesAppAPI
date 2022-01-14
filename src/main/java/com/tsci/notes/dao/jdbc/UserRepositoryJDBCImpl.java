@@ -70,8 +70,8 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 	public void createUser(User user) {
 		
 		// Query to insert new user
-		String sql = "INSERT INTO [User](Name,Surname,Mail,Password,Title,Avatar)" +
-		"VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO [User](Name,Surname,Mail,Password,Title,Avatar) " +
+		"VALUES (?,?,?,?,?,?)";
 		jdbcTemplate.update(sql,user.getName(), user.getSurname(), user.getMail(),user.getPassword(),user.getTitle(),user.getAvatar());
 		
 	}
