@@ -1,6 +1,7 @@
 package com.tsci.notes.web;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tsci.notes.exception.NoteNotFoundException;
 import com.tsci.notes.exception.UnknownRequestParamException;
+import com.tsci.notes.exception.UserBadRequestException;
 import com.tsci.notes.exception.UserNotFoundException;
 import com.tsci.notes.model.Note;
 import com.tsci.notes.model.User;
@@ -22,7 +25,7 @@ import com.tsci.notes.service.NotesService;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
 public class NotesRestController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(NotesRestController.class);
@@ -40,10 +43,12 @@ public class NotesRestController {
 	}
 	@RequestMapping(method=RequestMethod.GET, value="user")
 	public ResponseEntity<List<User>> findByQuery(@RequestParam(value="title",required=false) String title,
-			@RequestParam(value="name",required=false) String name) throws UserNotFoundException, UnknownRequestParamException{
+			@RequestParam(value="name",required=false) String name,
+			@RequestParam(value="mail", required=false) String mail) throws UserNotFoundException, UnknownRequestParamException{
 				
 		if(name != null) return ResponseEntity.ok(notesService.findByName(name));
 		else if (title != null) return ResponseEntity.ok(notesService.findByTitle(title));
+		else if (mail != null) return ResponseEntity.ok(Arrays.asList(notesService.findUserByMail(mail)));
 		else throw new UnknownRequestParamException("RequestParam is not valid!");
 	}
 	@RequestMapping(method=RequestMethod.GET, value="notes")
@@ -66,5 +71,11 @@ public class NotesRestController {
 		List<Note> notes = notesService.findNotesAfterDate(date);
 		if (notes != null) return ResponseEntity.ok(notes);
 		else throw new NoteNotFoundException(String.format("There are no notes with date %s",date));	
+	}
+	@RequestMapping(method=RequestMethod.POST, value="/create-user")
+	public ResponseEntity createUser(@RequestBody User user) throws UserBadRequestException {
+		if (user != null) notesService.createUser(user);
+		else throw new UserBadRequestException("Invalid request body");
+		return ResponseEntity.ok().build();
 	}
 }
